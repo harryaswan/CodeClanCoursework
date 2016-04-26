@@ -1,4 +1,8 @@
 *****Tuesday 26th April 2016******
 *****Week1/Day2*****
 
+--- Recap ---
+# going over git & github
+# getting access to the class notes
+
 --- Ruby ---

@@ -25,3 +25,8 @@ end
 result == "A"
 
 so result become the returned value from the case statement
+
+
+----
+
+A function is a reusable chunk of code that has a specific purpose, 

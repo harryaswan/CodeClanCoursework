@@ -6,3 +6,22 @@
 # getting access to the class notes
 
 --- Ruby ---
+
+use a case statement as a inherent return e.g.
+
+number = 1
+
+result = case number
+when 1
+    "A"
+when 2
+    "B"
+when 3
+    "C"
+else
+    "null"
+end
+
+result == "A"
+
+so result become the returned value from the case statement

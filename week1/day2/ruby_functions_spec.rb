@@ -51,7 +51,7 @@ class Functions_Practice < MiniTest::Test
     third_month_string = number_to_full_month_name( 3 )
     ninth_month_string = number_to_full_month_name( 9 )
     assert_equal( "January", first_month_string )
-    assert_equal( "March", third_month_string ) 
+    assert_equal( "March", third_month_string )
     assert_equal( "September", ninth_month_string )
   end
 
@@ -66,25 +66,37 @@ class Functions_Practice < MiniTest::Test
 
   #Further
 
-  #Given the length of a side of a cube calculate the volume 
+  #Given the length of a side of a cube calculate the volume
   def test_volume_of_cube()
-
+      cube_volume_1 = volume_of_cube(5)
+      cube_volume_2 = volume_of_cube(15)
+      cube_volume_3 = volume_of_cube(2)
+      assert_equal( 125, cube_volume_1)
+      assert_equal( 3375, cube_volume_2)
+      assert_equal( 8, cube_volume_3)
   end
 
   #Given the radius of a sphere calculate the volume
   def test_volume_of_sphere()
-
+      sphere_volume_1 = volume_of_sphere(5)
+      sphere_volume_2 = volume_of_sphere(15)
+      sphere_volume_3 = volume_of_sphere(2)
+      assert_equal( 523.6, sphere_volume_1)
+      assert_equal( 14137.2, sphere_volume_2)
+      assert_equal( 33.5, sphere_volume_3)
   end
 
   #http://ruby-doc.org/stdlib-2.1.1/libdoc/date/rdoc/Date.html
   #Days until christmas, Calculate how many nights there are from today until Christmas morning
   def test_days_until_christmas()
-
+      days_until_xmas = days_until_xmas()
+      assert_equal(243, days_until_xmas)
   end
 
   #Given a date of birth, calculate how old a person born on that date would be
   def test_age_of_person()
-
+      age = age_of_person("30th Jan 1996")
+      assert_equal(20, age)
   end
 
 

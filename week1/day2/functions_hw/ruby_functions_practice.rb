@@ -36,7 +36,7 @@ def number_to_full_month_name(num)
 end
 
 def number_to_short_month_name(num)
-    return Date::MONTHNAMES[num][0..2]
+    return number_to_full_month_name(num)[0..2]
 end
 
 def volume_of_cube(num)

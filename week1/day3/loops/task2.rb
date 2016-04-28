@@ -69,7 +69,7 @@ my_hash[:other] = {3 => "Three"}
 users = {
     "Jonathan" => {
       :twitter => "jonnyt",
-      :favourite_numbers => [12, 42, 75, 12, 5],
+      :favorite_numbers => [12, 42, 75, 12, 5],
       :home_town => "Stirling",
       :pets => {
         "fluffy" => :cat,
@@ -113,7 +113,7 @@ for x in users["Anil"][:favorite_numbers]
     end
 end
 
-jon_fav_nums = users["Jonathan"][:favourite_numbers].sort.uniq
+jon_fav_nums = users["Jonathan"][:favorite_numbers].sort.uniq
 users["Erik"][:favorite_numbers] << 7
 users["Erik"][:home_town] = "Edinburgh"
 users["Erik"][:pets]["Fluffy"] = :dog

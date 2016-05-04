@@ -64,9 +64,18 @@ class TestGame < MiniTest::Test
         assert_equal(expected_result, test_result)
     end
 
+    def test_can_take_turn_with_snake()
+        @game.next_turn(7)
+        test_result = @player1.position
+        expected_result = 0
+        assert_equal(expected_result, test_result)
+    end
+
     def test_can_win()
-        test_result = @game.next_turn(8)
-        expected_result = "YOU WIN!"
+        # test_result = @game.next_turn(8)
+        @game.next_turn(8)
+        test_result = @game.is_won?
+        expected_result = true
         assert_equal(expected_result, test_result)
     end
 

@@ -1,4 +1,5 @@
 require('colorize')
+require('pry-byebug')
 require_relative('game')
 require_relative('board')
 require_relative('player')
@@ -24,7 +25,7 @@ class Controller
                 @game = Game.new(players, board)
 
             end
-            print "\nIt is #{@game.current_player_name()}'s move...'"
+            print "\nIt is #{@game.player_name(@game.current_player())}'s move...'"
             u_in = gets.chomp
             if u_in == "exit"
                 @running = false
@@ -33,10 +34,12 @@ class Controller
                 print @dice.draw(dice_roll)
                 puts "You rolled a #{dice_roll}"
                 if @game.next_turn(dice_roll)
-                    puts "Well Done #{@game.current_player_name()}! You WIN!"
+                    draw_board()
+                    puts "Well Done #{@game.player_name(@game.current_player())}! You WIN!"
                     @running = false
                 else
-                    puts "You have moved to square #{@game.player_pos(@game.current_player()) + 1}."
+                    draw_board()
+                    puts "You have moved to square #{@game.player_pos(@game.prev_player()) + 1}."
                 end
             end
         end
@@ -53,7 +56,7 @@ class Controller
     end
 
     def pick_ladder(board_size, rnd)
-        start_point = rnd.rand(0...board_size-2)
+        start_point = rnd.rand(1...board_size-2)
         end_point = rnd.rand(start_point+1...board_size-1) - start_point
         puts "Ladder: #{{start_point => end_point}}"
         return [start_point, end_point]
@@ -61,7 +64,9 @@ class Controller
 
     def pick_snake(board_size, rnd)
         start_point = rnd.rand(1..board_size-2)
+        # puts "SnakeStart: #{start_point}"
         end_point = (start_point - rnd.rand(0..start_point))*-1
+        # puts "SnakeEnd: #{end_point}"
         puts "Snake: #{{start_point => end_point}}"
         return [start_point, end_point]
     end
@@ -69,28 +74,117 @@ class Controller
     def draw_board()
         board_size = @game.board_size()
         width_height = Math.sqrt(board_size).to_i
-        board = Array.new(width_height, Array.new(width_height))
+        # board = Array.new(width_height, Array.new(width_height, ""))
+        board = Array.new(width_height) { Array.new(width_height, "") }
+        # -----------------------
+        # |  6  |   7   |   8   |
+        # |[2,0]| [2,1] | [2,2] |
+        # -----------------------
+        # |  5  |   4   |   3   |
+        # |[1,0]| [1,1] | [1,2] |
+        # -----------------------
+        # |  0  |   1   |   2   |
+        # |[0,0]| [0,1] | [0,2] |
+        # -----------------------
+        #
+        #
+
         out = []
         pos = {}
         alt_dir = true
-        for x in (1..width_height)
-            for y in (1..width_height)
+        pos_count = 0
+        for y in (1..width_height)
+            for x in (1..width_height)
                 if alt_dir
-                    pos[(x*y)-1] = [x-1, y-1]
+                    pos[pos_count] = [y-1, x-1]
                 else
-                    pos[(x*y)-1] = [x-1, (width_height+1)-y]
+                    pos[pos_count] = [y-1, (width_height)-x]
                 end
-                alt_dir = !alt_dir
+                pos_count += 1
+            end
+            alt_dir = !alt_dir
+        end
+
+        # puts "\n"
+        # puts pos
+        # puts "\n"
+
+        for x in (0...board_size)
+            # puts "x: #{x}"
+            tmp = @game.board_state(x)
+            # puts "tmp: #{tmp}"
+            # puts "x+tmp: #{x+tmp}"
+            if tmp > 0
+                # puts "pos[x][0]: #{pos[x][0]}"
+                # puts "pos[x][1]: #{pos[x][1]}"
+
+                y_e = pos[x][0]
+                x_e = pos[x][1]
+                y_et = pos[x+tmp][0]
+                x_et = pos[x+tmp][1]
+
+                board[y_e][x_e] += "L:S "
+                board[y_et][x_et] += "L:E "
+                # puts "board #{y_e} #{x_e}"
+                # puts "board+t #{y_et} #{x_et}"
+                # puts "a: #{board[y_et][x_et]}"
+            elsif tmp < 0
+                y_e = pos[x][0]
+                x_e = pos[x][1]
+
+                y_et = pos[x+tmp][0]
+                x_et = pos[x+tmp][1]
+
+                # puts "board #{y_e} #{x_e}"
+                # puts "board+t #{y_et} #{x_et}"
+
+                board[y_e][x_e] += "S:S"
+                board[y_et][x_et] += "S:E "
             end
         end
 
+        # puts "Board: #{board}\n\n"
 
-        for x in (0...board_size)
-            
+        for ply in (0...@game.num_of_players)
+            player_pos = @game.player_pos(ply)
+            # puts "pos:#{pos}"
+            # puts "plypos: #{player_pos}"
+            player_name = @game.player_name(ply).chr
+            # puts "name: #{player_name}"
+            y_e = pos[player_pos][0]
+            x_e = pos[player_pos][1]
+            # puts "y #{y_e} x #{x_e}"
+            board[y_e][x_e] += "#{player_name} "
         end
 
 
-        return out
+        # puts "Board: #{board}\n\n"
+
+        allowed_space = 10
+
+        out << "------------"*width_height
+        for x in (0...width_height)
+            row = ""
+            for y in (0...width_height)
+                # puts "XY: (#{x}#{y}) #{board[x][y]}"
+                row << "|#{board[x][y]}"
+                if board[x][y].length < allowed_space
+                    row << " "*(allowed_space-board[x][y].length)
+                end
+            end
+            row << "|"
+            out << row
+            out << "------------"*width_height
+        end
+        # out << "--------------------\n"
+        out = out.reverse()
+
+        for row in out
+            puts row
+        end
+
+
+        return nil
     end
 
     def grab_init_data()

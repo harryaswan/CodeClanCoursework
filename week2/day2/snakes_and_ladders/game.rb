@@ -16,8 +16,8 @@ class Game
         return @current_player
     end
 
-    def current_player_name()
-        return @players[current_player()].name
+    def player_name(x)
+        return @players[x].name
     end
 
     def player_pos(x)

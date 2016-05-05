@@ -73,9 +73,9 @@ class Controller
 
     def draw_board()
         board_size = @game.board_size()
-        width_height = Math.sqrt(board_size).to_i
-        # board = Array.new(width_height, Array.new(width_height, ""))
+        width_height = Math.sqrt(board_size).to_i()
         board = Array.new(width_height) { Array.new(width_height, "") }
+        # board = Array.new(width_height, Array.new(width_height, ""))
         # -----------------------
         # |  6  |   7   |   8   |
         # |[2,0]| [2,1] | [2,2] |
@@ -86,9 +86,6 @@ class Controller
         # |  0  |   1   |   2   |
         # |[0,0]| [0,1] | [0,2] |
         # -----------------------
-        #
-        #
-
         out = []
         pos = {}
         alt_dir = true
@@ -104,86 +101,38 @@ class Controller
             end
             alt_dir = !alt_dir
         end
-
-        # puts "\n"
-        # puts pos
-        # puts "\n"
-
         for x in (0...board_size)
-            # puts "x: #{x}"
             tmp = @game.board_state(x)
-            # puts "tmp: #{tmp}"
-            # puts "x+tmp: #{x+tmp}"
             if tmp > 0
-                # puts "pos[x][0]: #{pos[x][0]}"
-                # puts "pos[x][1]: #{pos[x][1]}"
-
-                y_e = pos[x][0]
-                x_e = pos[x][1]
-                y_et = pos[x+tmp][0]
-                x_et = pos[x+tmp][1]
-
-                board[y_e][x_e] += "L:S "
-                board[y_et][x_et] += "L:E "
-                # puts "board #{y_e} #{x_e}"
-                # puts "board+t #{y_et} #{x_et}"
-                # puts "a: #{board[y_et][x_et]}"
+                board[pos[x][0]][pos[x][1]] += "L:S "
+                board[pos[x+tmp][0]][pos[x+tmp][1]] += "L:E "
             elsif tmp < 0
-                y_e = pos[x][0]
-                x_e = pos[x][1]
-
-                y_et = pos[x+tmp][0]
-                x_et = pos[x+tmp][1]
-
-                # puts "board #{y_e} #{x_e}"
-                # puts "board+t #{y_et} #{x_et}"
-
-                board[y_e][x_e] += "S:S"
-                board[y_et][x_et] += "S:E "
+                board[pos[x][0]][pos[x][1]] += "S:S"
+                board[pos[x+tmp][0]][pos[x+tmp][1]] += "S:E "
             end
         end
-
-        # puts "Board: #{board}\n\n"
-
         for ply in (0...@game.num_of_players)
             player_pos = @game.player_pos(ply)
-            # puts "pos:#{pos}"
-            # puts "plypos: #{player_pos}"
-            player_name = @game.player_name(ply).chr
-            # puts "name: #{player_name}"
+            player_letter = @game.player_name(ply).chr
             y_e = pos[player_pos][0]
             x_e = pos[player_pos][1]
-            # puts "y #{y_e} x #{x_e}"
-            board[y_e][x_e] += "#{player_name} "
+            board[y_e][x_e] += "#{player_letter} "
         end
-
-
-        # puts "Board: #{board}\n\n"
-
         allowed_space = 10
-
-        out << "------------"*width_height
+        puts "------------"*width_height
+        board = board.reverse()
         for x in (0...width_height)
             row = ""
             for y in (0...width_height)
-                # puts "XY: (#{x}#{y}) #{board[x][y]}"
                 row << "|#{board[x][y]}"
                 if board[x][y].length < allowed_space
                     row << " "*(allowed_space-board[x][y].length)
                 end
             end
             row << "|"
-            out << row
-            out << "------------"*width_height
-        end
-        # out << "--------------------\n"
-        out = out.reverse()
-
-        for row in out
             puts row
+            puts "------------"*width_height
         end
-
-
         return nil
     end
 

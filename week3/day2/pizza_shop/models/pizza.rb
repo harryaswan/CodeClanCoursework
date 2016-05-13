@@ -58,8 +58,8 @@ class Pizza
     end
 
     def self.do_db(sql)
-        # db = PG.connect({dbname: 'pizza_shop', host: 'localhost'})
-        db = PG.connect({dbname: 'dbifvpla7mc8n1', host: 'ec2-54-228-189-127.eu-west-1.compute.amazonaws.com', port: '5432', user: 'tblvokekcplfws', password: 'O9bs5kJ9gT3Hrf8eMd-a9H3XSd'})
+        db = PG.connect({dbname: 'pizzas', host: 'localhost'})
+        # db = PG.connect({dbname: 'dbifvpla7mc8n1', host: 'ec2-54-228-189-127.eu-west-1.compute.amazonaws.com', port: '5432', user: 'tblvokekcplfws', password: 'O9bs5kJ9gT3Hrf8eMd-a9H3XSd'})
         result = db.exec(sql)
         db.close()
         return result

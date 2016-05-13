@@ -1,4 +1,5 @@
 require_relative('../db/sql_runner')
+require_relative('artist')
 class Album
 
     attr_reader(:id, :name, :artist_id)
@@ -16,16 +17,27 @@ class Album
             sql = "UPDATE artists SET name='#{@name}', artist_id=#{@artist_id} WHERE id='#{@id}' RETURNING *;"
         end
         album = SQLRun.exec(sql)[0]
-        return Artist.new(album)
+        return Album.new(album)
     end
 
     def artist()
         if @id != 0
             sql = "SELECT * FROM artists WHERE id = #{@artist_id};"
             result = SQLRun.exec(sql)[0]
-            artist = Artist.new(result)
-            return artist
+            return Artist.new(result)
         end
+    end
+
+    def self.find(id)
+        sql = "SELECT * FROM albums WHERE id = #{id};"
+        result = SQLRun.exec(sql).first
+        return result ? Album.new(result) : false
+    end
+
+    def self.load()
+        sql = "SELECT * FROM albums;"
+        result = SQLRun.exec(sql)
+        return result.map{ |r| Album.new(r) }
     end
 
 end

@@ -1,0 +1,16 @@
+body {
+    padding: none;
+    margin: auto;
+    width: 100%;
+    background-color:#123;
+    color: #8DFF33;
+}
+nav, h1, p, ul {
+    margin: auto;
+    width: 300px;
+}
+
+ul li {
+    display:inline;
+    margin: auto;
+}

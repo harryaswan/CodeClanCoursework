@@ -10,7 +10,11 @@ h1, h2 {
     text-align: center;
 }
 
-a {
+.no_orders {
+    text-align: center;
+}
+
+.menu a {
     font-family: 'Bitter', serif;
     font-size: 1.1em;
     color: #5e3c58;
@@ -33,7 +37,7 @@ form input, form select {
 table, form {
     margin: auto;
 }
-.menu {
+.menu, .order{
     margin: auto;
     width: 100%;
     text-align: center;

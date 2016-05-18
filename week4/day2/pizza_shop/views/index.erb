@@ -1,2 +1,16 @@
-<h1>Welcome to Tony's Pizzas</h1>
-<div class='menu'><a href='/pizzas'>View Pizza Orders</a> | <a href='/pizzas/new'>Create New Pizza Order</a></div>
+<h1>Pizzas Orders</h1>
+<div class='menu'><a href='/'>Home</a> | <a href='/pizzas/new'>Create New Pizza Order</a></div>
+<% if @pizzas.length > 0 %>
+    <table>
+        <tr class='head_row'>
+            <td><u>Name</u></td>
+            <td><u>Topping</u></td>
+            <td><u>Quantity</u></td>
+        </tr>
+        <% for pza in @pizzas %>
+            <%= "<tr class='order_row'><td><a href='/pizzas/#{pza.id}'>#{pza.name}</a></td><td>#{pza.topping.capitalize()}</td><td>#{pza.quantity}</td></tr>" %>
+        <% end %>
+    </table>
+<% else %>
+    <div class='no_orders'>No orders to show</div>
+<% end %>

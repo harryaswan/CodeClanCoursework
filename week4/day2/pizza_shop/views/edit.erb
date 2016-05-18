@@ -1,0 +1,25 @@
+<h1>Order a Pizza</h1>
+
+<div class='menu'><a href="/">Home</a> | <a href="/pizzas">View Pizza Orders</a></div>
+
+<div id='new_pizza'>
+    <form action="/pizzas/<%= @pizza.id %>" method="post">
+        <input type="hidden" name="_method" value="put" />
+        <label for="f_name">First Name:</label>
+        <input type="text" name="f_name" placeholder="e.g. John" value="<%= @pizza.first_name %>"/></br>
+        <label for="l_name">Last Name:</label>
+        <input type="text" name="l_name" placeholder="Smith"  value="<%= @pizza.last_name %>"/></br>
+        <label for="topping">Pizza:</label>
+        <select name="topping">
+            <option value="margherita" <%= "selected" if @pizza.topping == "margherita" %>>Margherita</option>
+            <option value="pepperoni" <%= "selected" if @pizza.topping == "pepperoni" %>>Pepperoni</option>
+        </select></br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="qty" placeholder='1' value="<%= @pizza.quantity %>" /></br>
+        <input type="submit" name="order" value="Order Pizza" />
+    </form>
+    <form action="/pizzas/<%= @pizza.id %>" method="post">
+        <input  type="hidden" name="_method" value="delete" />
+        <input type="submit" name="delete" value="DELETE" />
+    </form>
+</div>

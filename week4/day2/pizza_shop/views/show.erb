@@ -1,0 +1,8 @@
+<h1>Order #<%= @pizza.id %></h1>
+<div class='menu'><a href='/'>Home</a> | <a href='/pizzas'>View Pizza Orders</a> | <a href='/pizzas/new'>Create New Pizza Order</a></div>
+</hr>
+<div class='order'>
+    <p>Name: <b><%= @pizza.name %></b></p>
+    <p>Order: <b><%= @pizza.quantity %> * <%= @pizza.topping %></b></p>
+</div>
+<div class="menu"><a href="/pizzas/<%= @pizza.id %>/edit">Edit Order</a></div>

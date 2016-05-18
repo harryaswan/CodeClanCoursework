@@ -1,0 +1,10 @@
+<h1>Albums</h1>
+<% if @albums.length > 0 %>
+    <% @albums.each do |album| %>
+        <div class='album'>
+            <p>Name: <a href="/albums/<%= album.id %>"><b><%= album.name %></b></a></p>
+        </div>
+    <% end %>
+<% else %>
+    <div>There are currently no albums, consider creating one.</div>
+<% end %>

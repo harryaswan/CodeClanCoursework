@@ -1,0 +1,10 @@
+<h1>Artists</h1>
+<% if @artists.length > 0 %>
+    <% @artists.each do |artist| %>
+        <div class='artist'>
+            <p>Name: <a href="/artists/<%= artist.id %>"><b><%= artist.name %></b></a></p>
+        </div>
+    <% end %>
+<% else %>
+    <div>There are currently no artists, consider creating one.</div>
+<% end %>

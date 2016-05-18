@@ -1,0 +1,81 @@
+body {
+
+    background: #83adb5;
+
+}
+h1, h2 {
+    /*color: #585568;*/
+    color: #5e3c58;
+    font-family: 'Poiret One', cursive;
+    text-align: center;
+}
+
+a {
+    font-family: 'Bitter', serif;
+    font-size: 1.1em;
+    color: #5e3c58;
+}
+a:hover {
+    text-shadow: -2px 2px #bfb5b2;
+}
+
+form input, form select {
+    /*background: #809784;*/
+    background: #5b797e;
+    /*color: #585568;*/
+    color: #bfb5b2;
+    border-radius: 5px;
+    line-height: 1.5em;
+    font-size: 1.4em;
+    font-family: 'Poiret One', cursive;
+    padding-right: 10px;
+}
+table, form {
+    margin: auto;
+}
+.menu {
+    margin: auto;
+    width: 100%;
+    text-align: center;
+}
+#new_pizza {
+    margin:auto;
+    width: 400px;
+}
+table tr td {
+    padding: 5px;
+}
+.head_row {
+    font-family: 'Poiret One', cursive;
+    color: #5e3c58;
+    text-decoration: underline;
+}
+
+.order_row {
+    color: orange;
+    font-weight:normal;
+    font-size: 1.1em;
+    text-decoration: none;
+}
+
+label {
+    font-family: 'Bitter', serif;
+    font-size: 1.5em;
+    color: #2e4045;
+}
+
+::-webkit-input-placeholder {
+   color: #585568;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   color: #585568;
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   color: #585568;
+}
+
+:-ms-input-placeholder {
+   color: #585568;
+}

@@ -1,0 +1,20 @@
+<h1>Order a Pizza</h1>
+
+<div class='menu'><a href="/">Home</a> | <a href="/pizzas">View Pizza Orders</a></div>
+
+<div id='new_pizza'>
+    <form action="/pizzas" method="post">
+        <label for="f_name">First Name:</label>
+        <input type="text" name="f_name" placeholder="e.g. John" /></br>
+        <label for="l_name">Last Name:</label>
+        <input type="text" name="l_name" placeholder="Smith" /></br>
+        <label for="topping">Pizza:</label>
+        <select name="topping">
+            <option value="margherita">Margherita</option>
+            <option value="pepperoni">Pepperoni</option>
+        </select></br>
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="qty" /></br>
+        <input type="submit" name="order" value="Order Pizza" />
+    </form>
+</div>

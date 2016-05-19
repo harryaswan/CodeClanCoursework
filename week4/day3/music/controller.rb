@@ -12,3 +12,8 @@ require_relative('controllers/artist_controller')
 get '/' do
     erb(:home)
 end
+
+get '/library' do
+    @artists = Artist.all()
+    erb(:library)
+end

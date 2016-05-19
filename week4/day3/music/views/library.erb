@@ -1,0 +1,14 @@
+<h1>Library</h1>
+
+<% @artists.each do |artist| %>
+
+    <div class='artist-row'>
+        <div class="artist-info"> <%= artist.name %> </div>
+        <div class="artist-albums">
+            <% artist.albums.each do |album| %>
+                <div class="album-row"> <%= album.name %> </div>
+            <% end %>
+        </div>
+    </div>
+
+<% end %>

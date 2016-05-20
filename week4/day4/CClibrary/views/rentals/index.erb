@@ -1,0 +1,5 @@
+<h1>Rentals</h1>
+<a href="/rentals/new">Add New Rental</a>
+<% for rental in @rentals %>
+    <p>Member: <%= @members.find {|m| m.id == rental.member_id}.name %> | Book: <%= @books.find {|b| b.id == rental.book_id}.title %> <a href="/rentals/<%= rental.id %>">View&gt;</a></p>
+<% end %>

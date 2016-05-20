@@ -1,0 +1,17 @@
+<h1>Create new rental</h1>
+
+<form action="/rentals" method="post">
+    <label for="member_id">Member:</label>
+    <select name="member_id">
+        <% for member in @members %>
+            <option value="<%= member.id %>"><%= member.name %></option>
+        <% end %>
+    </select>
+    <label for="book_id">Book:</label>
+    <select name="book_id">
+        <% for book in @books %>
+            <option value="<%= book.id %>"><%= book.title %></option>
+        <% end %>
+    </select>
+    <input type="submit" value="Save" />
+</form>

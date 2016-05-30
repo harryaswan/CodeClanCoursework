@@ -12,3 +12,5 @@ console.log("Drums", drums);
 
 guitarsAndDrums = guitars.concat(drums)
 console.log(guitarsAndDrums);
+
+console.log(guitarsAndDrums.splice(0,1));

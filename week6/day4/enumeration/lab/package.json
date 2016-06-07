@@ -1,0 +1,16 @@
+{
+  "name": "bank_lab",
+  "version": "1.0.0",
+  "description": "banky things",
+  "main": "bank.js",
+  "scripts": {
+    "test": "mocha specs"
+  },
+  "author": "harryaswan",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^3.5.0",
+    "lodash": "^4.13.1",
+    "mocha": "^2.5.3"
+  }
+}

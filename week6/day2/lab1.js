@@ -2,28 +2,28 @@
 
 //what types are these? Write your answer in a comment beside it.
 
-1;  // number
-"cat"; // string
-true; // boolean
-[]; // array
-{}; // object
-1.1; // number
-undefined; // undefined
+// 1;  // number
+// "cat"; // string
+// true; // boolean
+// []; // object
+// {}; // object
+// 1.1; // number
+// undefined; // undefined
 
 //Section 2
 
 // what is the truthy/falsiness values of the following
 // write your answer in a comment beside it
 // you can use an if to test this...
-1; //true
-"cat"; // true
-true; // false
-NaN; // false
-[]; // true
-{}; // true
-undefined; // false
-""; // false
-0; // false
+// 1; //true
+// "cat"; // true
+// true; // false
+// NaN; // false
+// []; // true
+// {}; // true
+// undefined; // false
+// ""; // false
+// 0; // false
 
 
 //Section 3
@@ -51,11 +51,13 @@ if (true) {
     console.log("bye");
 }
 
+// true ? console.log("hello") : console.log("bye"); // same as above but in a terniary
+
 //Section 5
 var animals = ["raccoon","hedgehog","mouse","gerbil"];
 
 //5.1. Assign the first element to a variable
-var firstElement = animals[1];
+var firstElement = animals[0];
 //5.2. Assign the last element to a variable
 var lastElement = animals[(animals.length - 1)];
 //5.3. Assign the length of an array to a variable
@@ -109,44 +111,91 @@ var accounts = [
     type: 'personal'
   },
 ];
+
 //7.1 Calculate the total cash in accounts
 var totalCash = function() {
     var totalCashNumber = 0;
     for (var i = 0; i < accounts.length; i++) {
         totalCashNumber += accounts[i].amount;
     }
+    return totalCashNumber;
 };
+console.log(totalCash());
 
 //7.2 Find the name of the account with the largest balance
-var richestPerson = accounts[0];
-for (var i = 1; i < accounts.length; i++) {
-    if (accounts[i].amount > richestPerson.amount) {
-        richestPerson = accounts[i];
+var largestAccount = function() {
+    var richestPerson = accounts[0];
+    for (var i = 1; i < accounts.length; i++) {
+        if (accounts[i].amount > richestPerson.amount) {
+            richestPerson = accounts[i];
+        }
     }
-}
-console.log(richestPerson.name);
+    return richestPerson;
+};
+console.log(largestAccount().name);
+
 //7.3 Find the name of the account with the smallest balance
-var poorPerson = accounts[0];
-for (var i = 1; i < accounts.length; i++) {
-    if (accounts[i].amount < poorPerson.amount) {
-        poorPerson = accounts[i];
+var smallestAccount = function() {
+    var poorPerson = accounts[0];
+    for (var i = 1; i < accounts.length; i++) {
+        if (accounts[i].amount < poorPerson.amount) {
+            poorPerson = accounts[i];
+        }
     }
-}
-console.log(poorPerson.name);
+    return poorPerson;
+};
+console.log(smallestAccount().name);
+
 //7.4 Calculate the average bank account value
-console.log("Avg Cash:" + (totalCash()/accounts.length));
+var avgBalance = function() {
+    return (totalCash()/accounts.length);
+};
+console.log("Avg Cash:" + avgBalance());
+
 //7.5 Find the value of marcs bank account
-for (var i = 0; i < accounts.length; i++) {
-    if (accounts[i].name === "marc") {
-        console.log("Marc has: " + accounts[i].amount);
+var customerBalance = function(name) {
+    for (var i = 0; i < accounts.length; i++) {
+        if (accounts[i].name === name) {
+            return accounts[i].amount;
+        }
     }
-}
+};
+console.log(customerBalance("marc"));
 //7.6 Find the holder of the largest bank account
     // please look at 7.2
+
 //7.7 Calculate the total cash in business accounts
+var totalAccountCash = function(accountType) {
+    var totalBusinessCashNumber = 0;
+    for (var i = 0; i < accounts.length; i++) {
+        if (accounts[i].type == accountType) {
+            totalBusinessCashNumber += accounts[i].amount;
+        }
+    }
+    return totalBusinessCashNumber;
+};
+console.log(totalAccountCash("business"));
 
 //7.8 Find the largest personal account owner
-
+var largestAccountHolderOfType = function(accountType) {
+    var richestPerson = {name: null, amount: (smallestAccount().amount-1), type: accountType};
+    for (var i = 1; i < accounts.length; i++) {
+        if (accounts[i].amount > richestPerson.amount && accounts[i].type === accountType) {
+            richestPerson = accounts[i];
+        }
+    }
+    return richestPerson;
+};
+console.log(largestAccountHolderOfType("personal").name);
 
 //Section 8
 //Assign a variable myPerson to a hash, giving them a name, height, favourite food and an eat method
+
+var myPerson = {
+    name: "Dave",
+    height: "5ft 1in",
+    favouriteFood: "Chicken Wings",
+    eat: function() {
+        console.log("I am eating " + this.favouriteFood );
+    }
+};

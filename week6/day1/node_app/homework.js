@@ -17,7 +17,7 @@ var outerFunction = function(decided){
             }
             return detective;
         };
-        detective = someAction;
+        detective = someAction();
     };
     var innerFunctionC = function(){
         var detectiveFrost = 'Jack Frost';
@@ -37,4 +37,7 @@ var outerFunction = function(decided){
     return detective;
 };
 detective = outerFunction(false);
+console.log('The best detective is', detective, "of course!");
+//
+detective = outerFunction(true);
 console.log('The best detective is', detective, "of course!");

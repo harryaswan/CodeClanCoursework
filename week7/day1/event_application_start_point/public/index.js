@@ -5,11 +5,6 @@ var letsGo = function() {
     var btn = document.getElementById('add-button');
     var form = document.getElementById('film-form');
     btn.onclick = addFilm;
-    // form.onsubmit = function() {
-    //     console.log("SUBMIT");
-    //     return addFilm();
-    //     // return false;
-    // };
     form.onsubmit = addFilm;
 
 

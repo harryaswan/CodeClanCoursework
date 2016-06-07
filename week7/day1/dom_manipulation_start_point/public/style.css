@@ -1,0 +1,13 @@
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.red-quote{
+  color: red;
+}
+
+
+body {
+    background: linear-gradient( to right, green, yellow, orange, red, orange, yellow, green);
+}

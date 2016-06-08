@@ -13,6 +13,12 @@ var main = function() {
     if (item) {
         viewCountry(grabCountry(item), true);
     }
+
+    var test = function() {
+        console.log("TEST");
+    };
+
+
 };
 
 var createSelect = function(data) {

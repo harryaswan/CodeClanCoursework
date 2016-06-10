@@ -14,10 +14,6 @@ var main = function() {
         viewCountry(grabCountry(item), true);
     }
 
-    var test = function() {
-        console.log("TEST");
-    };
-
 
 };
 
@@ -149,7 +145,6 @@ var populateRegion = function() {
 
     for (i = 0; i < regions.length; i++) {
         var tmpOption = document.createElement('option');
-        console.log("|" + regions[i] + "|");
         tmpOption.setAttribute('value', regions[i]);
         if (regions[i] === "") {
             tmpOption.innerText = "All Regions";

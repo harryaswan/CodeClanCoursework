@@ -7,7 +7,6 @@ var Chuck = function() {
             if (request.status === 200) {
                 var jsonString = request.responseText;
                 var result = JSON.parse(jsonString);
-                console.log(this);
                 this.display(result);
             }
         }.bind(this);

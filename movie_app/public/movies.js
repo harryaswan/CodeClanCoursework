@@ -51,7 +51,6 @@ var MovieSearch = function(resElement, disElement) {
 
     }.bind(this),
     this.displayMovie = function(data) {
-        console.log(data);
         if (data.Response === "True") {
             var emptyDiv = document.createElement('div');
             this.resultElement.replaceChild(emptyDiv, this.resultElement.firstChild);

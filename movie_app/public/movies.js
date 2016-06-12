@@ -35,7 +35,7 @@ var MovieSearch = function(resElement, disElement) {
                 }.bind(this);
                 var img = document.createElement('img')
                 img.setAttribute('src', movies[i].Poster);
-                img.height = 40;
+                img.setAttribute('height', '40px');
                 span.innerText = movies[i].Title;
                 span.insertBefore(img, span.childNodes[0]);
                 div.appendChild(span);
@@ -57,8 +57,30 @@ var MovieSearch = function(resElement, disElement) {
             this.resultElement.replaceChild(emptyDiv, this.resultElement.firstChild);
             var div = document.createElement('div');
 
+            var img = document.createElement('img');
+            img.setAttribute('src', data.Poster);
+            img.setAttribute('height', '200px');
+
+            var title = document.createElement('h2');
+            title.innerText = data.Title;
+
+
+            div.appendChild(img);
+            div.appendChild(title);
 
             this.displayElement.replaceChild(div, this.displayElement.firstChild);
+
+            var dump = document.createElement('div');
+            var ul = document.createElement('ul');
+
+            for (var i = 0; i < Object.keys(data).length; i++) {
+                var li = document.createElement('li');
+                li.innerText = Object.keys(data)[i] + " - " + data[Object.keys(data)[i]];
+                ul.appendChild(li);
+            }
+
+            dump.appendChild(ul);
+            this.displayElement.appendChild(dump);
         } else {
             var div = document.createElement('div');
             var p = document.createElement('p');
@@ -66,6 +88,6 @@ var MovieSearch = function(resElement, disElement) {
             div.appendChild(p);
             this.displayElement.replaceChild(div, this.displayElement.firstChild);
         }
-    }
+    }.bind(this)
 
 }

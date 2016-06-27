@@ -1,0 +1,11 @@
+body {
+    background: #3fbd47;
+    font-family: 'Chewy', cursive;
+    color: #00FFFF;
+    text-shadow: 1px 1px 1px #6c246b;
+}
+h1 {
+    width: 200px;
+    margin: auto;
+    text-align: center;
+}

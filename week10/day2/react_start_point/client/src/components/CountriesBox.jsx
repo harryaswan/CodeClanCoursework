@@ -1,5 +1,6 @@
 var React = require('react');
 var CountrySelector = require('./CountrySelector.jsx');
+var RegionSelector = require('./RegionSelector.jsx');
 var CountryDisplay = require('./CountryDisplay.jsx');
 
 var CountriesBox = React.createClass({
@@ -7,7 +8,10 @@ var CountriesBox = React.createClass({
     getInitialState: function() {
         return {
             countries: [],
-            currentCountry: null
+            currentCountry: null,
+            currentCountryBorders: [],
+            currentRegion: null,
+            regions: []
         };
     },
 
@@ -17,25 +21,65 @@ var CountriesBox = React.createClass({
         req.open("GET", url);
         req.onload = function() {
             var data = JSON.parse(req.responseText);
-            this.setState({countries: data, currentCountry:data[0]});
+            this.setState({countries: data});
+            var regions = [];
+            for (var country of this.state.countries) {
+                if (regions.indexOf(country.region) === -1) {
+                    regions.push(country.region);
+                }
+            }
+            this.setState({regions: regions, currentRegion:regions[0]});
+            this.setState({currentCountry:this.grabCountries('region', this.state.currentRegion)[0]});
+            this.setState({currentCountryBorders: this.getCountryBorders(data[0].borders)});
         }.bind(this);
         req.send(null);
     },
 
     render: function() {
+
         return (
             <div>
                 <h1>🌍 Countries of The World 🌍</h1>
-                <CountrySelector data={this.state.countries} oncountrychange={this.handleCountrySelect} />
-                <CountryDisplay country={this.state.currentCountry}/>
+                <RegionSelector data={this.state.regions} onregionchange={this.handleRegionSelect}/>
+                <CountrySelector data={this.grabCountries('region', this.state.currentRegion)} oncountrychange={this.handleCountrySelect} />
+                <CountryDisplay country={this.state.currentCountry} borders={this.state.currentCountryBorders}/>
             </div>
         );
     },
-
+    handleRegionSelect: function(e) {
+        e.preventDefault();
+        var selRegion = this.state.regions[e.target.selectedIndex]
+        this.setState({currentRegion: selRegion});
+        this.setState({currentCountry:this.grabCountries('region', selRegion)[0]});
+    },
     handleCountrySelect: function(e) {
         e.preventDefault(); // not needed in this example - but good practice to have it here if in a form, etc.
-        var country = this.state.countries[e.target.selectedIndex];
-        this.setState({currentCountry: country});
+        var country = this.grabCountries('region', this.state.currentRegion)[e.target.selectedIndex];
+        this.setState({currentCountry: country, currentCountryBorders: this.getCountryBorders(country.borders)});
+    },
+    grabCountries: function(key, val) {
+        return this.state.countries.filter(function(country) {
+            return country[key] === val;
+        })
+    },
+    getCountryBorders: function(countryBorders) {
+
+        return this.state.countries.filter(function(country) {
+            if (countryBorders.indexOf(country.alpha3Code) > -1) {
+                return true;
+            } else {
+                return false;
+            }
+        });
+
+        // return countryBorders.map(function(countryCode) {
+        //     for (var country of this.state.countries) {
+        //         if (country.alpha3Code === countryCode) {
+        //             return country;
+        //         }
+        //     }
+        // }.bind(this));
+
     }
 
 });

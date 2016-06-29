@@ -1,10 +1,10 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var GameBox = require('./components/GameBox.jsx');
+var BankBox = require('./components/BankBox.jsx');
 
 window.onload = function(){
   ReactDOM.render(
-    <div><GameBox /></div>,
+    <BankBox />,
     document.getElementById('app')
   );
 }

@@ -48,14 +48,10 @@
 	
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var GameBox = __webpack_require__(165);
+	var BankBox = __webpack_require__(159);
 	
 	window.onload = function () {
-	  ReactDOM.render(React.createElement(
-	    'div',
-	    null,
-	    React.createElement(GameBox, null)
-	  ), document.getElementById('app'));
+	  ReactDOM.render(React.createElement(BankBox, null), document.getElementById('app'));
 	};
 
 /***/ },
@@ -19692,248 +19688,251 @@
 
 
 /***/ },
-/* 159 */,
-/* 160 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
 	var React = __webpack_require__(1);
+	var sampleData = __webpack_require__(160);
 	
-	var CountrySelector = React.createClass({
-	    displayName: 'CountrySelector',
+	var TotalDisplay = __webpack_require__(161);
+	var AccountBox = __webpack_require__(162);
+	var InterestButton = __webpack_require__(164);
+	var CreateAccount = __webpack_require__(165);
+	var DetailsDisplay = __webpack_require__(166);
 	
+	var BankBox = React.createClass({
+	    displayName: 'BankBox',
 	
+	    getInitialState: function getInitialState() {
+	        return {
+	            accounts: sampleData,
+	            selectedAccount: sampleData[0]
+	        };
+	    },
 	    render: function render() {
-	        // var countries = this.props.data.map(function(country) {
-	        //     return React.createElement('option', null, country.name);
-	        // });
-	        return(
-	            // React.createElement('select', null, countries)
-	            React.createElement(
-	                'select',
-	                { onChange: this.props.oncountrychange },
-	                this.props.data.map(function (country) {
-	                    return React.createElement(
-	                        'option',
-	                        { key: country.alpha2Code },
-	                        country.name
-	                    );
-	                })
-	            )
+	        return React.createElement(
+	            'div',
+	            null,
+	            React.createElement(TotalDisplay, { accounts: this.state.accounts }),
+	            React.createElement(AccountBox, { accounts: this.getAccounts('type', 'Personal'), accountType: 'Personal', deleteAccount: this.deleteAccount, selectAccount: this.selectAccount }),
+	            React.createElement(AccountBox, { accounts: this.getAccounts('type', 'Business'), accountType: 'Business', deleteAccount: this.deleteAccount, selectAccount: this.selectAccount }),
+	            React.createElement(DetailsDisplay, { account: this.state.selectedAccount, saveDetails: this.saveDetails }),
+	            React.createElement(InterestButton, { addInterest: this.addInterest }),
+	            React.createElement(CreateAccount, { addAccount: this.addAccount })
 	        );
 	    },
-	    handleChange: function handleChange(e) {
-	        console.log('e', e.target.selectedIndex);
+	    getAccounts: function getAccounts(key, val) {
+	        return this.state.accounts.filter(function (account) {
+	            return account[key] === val;
+	        });
+	    },
+	    addInterest: function addInterest() {
+	        this.setState({ accounts: this.state.accounts.map(function (account) {
+	                account.amount = account.amount + account.amount / 10;
+	                return account;
+	            }) });
+	    },
+	    addAccount: function addAccount(accountObj, callback) {
+	        var newAccounts = this.state.accounts;
+	        newAccounts.push(accountObj);
+	        this.setState({ accounts: newAccounts }, callback);
+	    },
+	    deleteAccount: function deleteAccount(ownerName, callback) {
+	        var newAccounts = this.state.accounts.filter(function (account) {
+	            return account.owner !== ownerName;
+	        });
+	        this.setState({ accounts: newAccounts }, callback);
+	    },
+	    selectAccount: function selectAccount(ownerName, callback) {
+	        var account = this.state.accounts.find(function (account) {
+	            return account.owner === ownerName;
+	        });
+	        this.setState({ selectedAccount: account }, callback);
+	    },
+	    saveDetails: function saveDetails(account) {
+	        console.log(account);
+	        this.deleteAccount(account.owner, function () {
+	            this.addAccount(account, function () {
+	                this.selectAccount(account.owner);
+	            }.bind(this));
+	        }.bind(this));
 	    }
 	
 	});
 	
-	module.exports = CountrySelector;
+	module.exports = BankBox;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	module.exports = [{ owner: "Jay",
+	  amount: 125.50,
+	  type: "Personal",
+	  details: ""
+	}, { owner: "Val",
+	  amount: 55125.10,
+	  type: "Personal",
+	  details: ""
+	}, { owner: "Marc",
+	  amount: 400.00,
+	  type: "Personal",
+	  details: ""
+	}, { owner: "Keith",
+	  amount: 220.25,
+	  type: "Business",
+	  details: ""
+	}, { owner: "Rick",
+	  amount: 100000.00,
+	  type: "Business",
+	  details: ""
+	}];
 
 /***/ },
 /* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
-	var PropTypes = React.PropTypes;
-	var BorderCountryDisplay = __webpack_require__(162);
 	
-	var CountryDisplay = React.createClass({
-	    displayName: 'CountryDisplay',
+	var TotalDisplay = React.createClass({
+	    displayName: "TotalDisplay",
 	
 	
 	    render: function render() {
 	
-	        var name = "Not selected";
-	        var population = "N/A";
-	        var borders = [];
-	
-	        var dataBits = [];
-	
-	        var borderHeader = React.createElement(
-	            'h4',
+	        var total = React.createElement(
+	            "h2",
 	            null,
-	            ' No Borders '
+	            "Total: £0"
 	        );
-	        if (this.props.country) {
-	            name = this.props.country.name;
-	            population = this.props.country.population;
 	
-	            if (this.props.borders.length > 0) {
-	                // borders.push(<p>Borders:</p>);
-	                borderHeader = React.createElement(
-	                    'h4',
-	                    null,
-	                    ' Borders are '
-	                );
-	                var _iteratorNormalCompletion = true;
-	                var _didIteratorError = false;
-	                var _iteratorError = undefined;
+	        if (this.props.accounts.length) {
+	            var totalAmount = this.props.accounts.reduce(function (sum, account) {
+	                return sum + account.amount;
+	            }, 0);
 	
-	                try {
-	                    for (var _iterator = this.props.borders[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-	                        var bCountry = _step.value;
-	
-	                        borders.push(React.createElement(BorderCountryDisplay, { key: bCountry.alpha3Code, country: bCountry }));
-	                    }
-	                } catch (err) {
-	                    _didIteratorError = true;
-	                    _iteratorError = err;
-	                } finally {
-	                    try {
-	                        if (!_iteratorNormalCompletion && _iterator.return) {
-	                            _iterator.return();
-	                        }
-	                    } finally {
-	                        if (_didIteratorError) {
-	                            throw _iteratorError;
-	                        }
-	                    }
-	                }
-	            }
-	
-	            var _iteratorNormalCompletion2 = true;
-	            var _didIteratorError2 = false;
-	            var _iteratorError2 = undefined;
-	
-	            try {
-	                for (var _iterator2 = Object.keys(this.props.country)[Symbol.iterator](), _step2; !(_iteratorNormalCompletion2 = (_step2 = _iterator2.next()).done); _iteratorNormalCompletion2 = true) {
-	                    var key = _step2.value;
-	
-	                    dataBits.push(React.createElement(
-	                        'p',
-	                        { key: key },
-	                        key,
-	                        ': ',
-	                        JSON.stringify(this.props.country[key])
-	                    ));
-	                }
-	            } catch (err) {
-	                _didIteratorError2 = true;
-	                _iteratorError2 = err;
-	            } finally {
-	                try {
-	                    if (!_iteratorNormalCompletion2 && _iterator2.return) {
-	                        _iterator2.return();
-	                    }
-	                } finally {
-	                    if (_didIteratorError2) {
-	                        throw _iteratorError2;
-	                    }
-	                }
-	            }
+	            total = React.createElement(
+	                "h2",
+	                null,
+	                "Total",
+	                this.props.header ? " " + this.props.header : "",
+	                ": £",
+	                totalAmount
+	            );
 	        }
 	
 	        return React.createElement(
-	            'div',
+	            "div",
 	            null,
-	            React.createElement(
-	                'div',
-	                { className: 'countryInfo' },
-	                React.createElement(
-	                    'p',
-	                    null,
-	                    React.createElement(
-	                        'b',
-	                        null,
-	                        'Name:'
-	                    ),
-	                    ' ',
-	                    name
-	                ),
-	                React.createElement(
-	                    'p',
-	                    null,
-	                    React.createElement(
-	                        'b',
-	                        null,
-	                        'Population:'
-	                    ),
-	                    ' ',
-	                    population
-	                ),
-	                borderHeader,
-	                borders
-	            ),
-	            React.createElement(
-	                'div',
-	                { className: 'dataDump' },
-	                React.createElement(
-	                    'b',
-	                    null,
-	                    'All Data:'
-	                ),
-	                dataBits
-	            )
+	            total
 	        );
 	    }
 	
 	});
 	
-	module.exports = CountryDisplay;
+	module.exports = TotalDisplay;
 
 /***/ },
 /* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
-	var PropTypes = React.PropTypes;
 	
-	var BorderCountryDisplay = React.createClass({
-	    displayName: "BorderCountryDisplay",
+	var TotalDisplay = __webpack_require__(161);
+	var AccountList = __webpack_require__(163);
+	
+	var AccountBox = React.createClass({
+	    displayName: 'AccountBox',
 	
 	
 	    render: function render() {
 	        return React.createElement(
-	            "div",
-	            { key: this.props.country.alpha3Code, className: "border-country" },
-	            React.createElement(
-	                "p",
-	                null,
-	                "Name: ",
-	                this.props.country.name
-	            )
+	            'div',
+	            null,
+	            React.createElement(TotalDisplay, { accounts: this.props.accounts, header: this.props.accountType }),
+	            React.createElement(AccountList, { deleteAccount: this.props.deleteAccount, selectAccount: this.props.selectAccount, accounts: this.props.accounts })
 	        );
 	    }
 	
 	});
 	
-	module.exports = BorderCountryDisplay;
+	module.exports = AccountBox;
 
 /***/ },
 /* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
 	
-	var RegionSelector = React.createClass({
-	    displayName: 'RegionSelector',
+	var AccountList = React.createClass({
+	    displayName: "AccountList",
 	
 	
 	    render: function render() {
+	        var list = React.createElement(
+	            "h2",
+	            null,
+	            "No Accounts Present"
+	        );
+	
+	        if (this.props.accounts.length) {
+	
+	            list = React.createElement(
+	                "ul",
+	                null,
+	                this.props.accounts.map(function (account) {
+	                    var delFun = function () {
+	                        this.props.deleteAccount(account.owner);
+	                    }.bind(this);
+	                    var editFun = function () {
+	                        this.props.selectAccount(account.owner);
+	                    }.bind(this);
+	                    return React.createElement(
+	                        "li",
+	                        { key: account.owner },
+	                        React.createElement(
+	                            "span",
+	                            { className: "owner-name" },
+	                            account.owner,
+	                            ":"
+	                        ),
+	                        " £",
+	                        account.amount,
+	                        React.createElement(
+	                            "button",
+	                            { onClick: delFun },
+	                            "Delete"
+	                        ),
+	                        React.createElement(
+	                            "button",
+	                            { onClick: editFun },
+	                            "View/Edit Details"
+	                        )
+	                    );
+	                }.bind(this))
+	            );
+	        }
+	
 	        return React.createElement(
-	            'select',
-	            { onChange: this.props.onregionchange },
-	            this.props.data.map(function (region) {
-	                return React.createElement(
-	                    'option',
-	                    { key: region },
-	                    region
-	                );
-	            })
+	            "div",
+	            null,
+	            list
 	        );
 	    }
 	
 	});
 	
-	module.exports = RegionSelector;
+	module.exports = AccountList;
 
 /***/ },
 /* 164 */
@@ -19942,234 +19941,98 @@
 	"use strict";
 	
 	var React = __webpack_require__(1);
-	var GameInput = __webpack_require__(166);
+	var PropTypes = React.PropTypes;
 	
-	var GameView = React.createClass({
-	    displayName: "GameView",
+	var InterestButton = React.createClass({
+	    displayName: "InterestButton",
 	
 	
-	    getInitialState: function getInitialState() {
-	        return {
-	            qa: null
-	        };
-	    },
 	    render: function render() {
-	        var qa = this.generateQA();
-	        var screen;
-	        if (qa.question) {
-	            screen = React.createElement(
-	                "span",
-	                null,
-	                React.createElement(
-	                    "p",
-	                    null,
-	                    "Question:"
-	                ),
-	                React.createElement(
-	                    "p",
-	                    null,
-	                    qa.question
-	                ),
-	                React.createElement(GameInput, { onsubmit: this.handleAnswerSubmit, answer: qa.answer })
-	            );
-	        } else {
-	            screen = React.createElement(
-	                "h2",
-	                null,
-	                "Loading game...."
-	            );
-	        }
-	
-	        return React.createElement(
-	            "div",
-	            null,
-	            screen
-	        );
-	    },
-	    generateQA: function generateQA() {
-	        var question = null;
-	        var answer = null;
-	        if (this.props.country) {
-	            switch (this.props.gameMode) {
-	                case 0:
-	                    question = "What is the capital of " + this.props.country.name + "?";
-	                    answer = this.props.country.capital;
-	                    break;
-	                case 1:
-	                    question = this.props.country.capital + " is the capital of what country?";
-	                    answer = this.props.country.name;
-	                    break;
-	                case 2:
-	                    var bordersString = "";
-	                    for (var bcIndex in this.props.borders) {
-	                        bordersString += this.props.borders[bcIndex].name;
-	                        bordersString += bcIndex < this.props.borders.length - 2 ? ", " : " and ";
-	                    }
-	                    bordersString = bordersString.substring(0, bordersString.length - 5);
-	                    question = "What country borders all of these countries: " + bordersString + "?";
-	                    answer = this.props.country.name;
-	                    break;
-	                case 3:
-	                    question = "What is the country with the alpha code of " + this.props.country.alpha3Code + "?";
-	                    answer = this.props.country.name;
-	                    break;
-	                case 4:
-	                    question = "What is the top level domain of " + this.props.country.name + "? (Including the dot)";
-	                    answer = this.props.country.topLevelDomain[0];
-	                    break;
-	            }
-	        }
-	
-	        return { question: question, answer: answer };
-	    },
-	    handleAnswerSubmit: function handleAnswerSubmit(answer) {
-	        this.props.finishRound(answer);
+	        return React.createElement("input", { type: "button", value: "+10% Interest", onClick: this.props.addInterest });
 	    }
 	
 	});
 	
-	module.exports = GameView;
+	module.exports = InterestButton;
 
 /***/ },
 /* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var React = __webpack_require__(1);
-	var CountrySelector = __webpack_require__(160);
-	var RegionSelector = __webpack_require__(163);
-	var CountryDisplay = __webpack_require__(161);
-	var GameView = __webpack_require__(164);
 	
-	var GameBox = React.createClass({
-	    displayName: 'GameBox',
-	
+	var CreateAccount = React.createClass({
+	    displayName: "CreateAccount",
 	
 	    getInitialState: function getInitialState() {
 	        return {
-	            countries: null,
-	            currentCountry: null,
-	            currentCountryBorders: [],
-	            gameMode: 0,
-	            score: 0,
-	            scoreDrawn: false
+	            owner: null,
+	            amount: 0,
+	            type: "Personal"
 	        };
 	    },
-	
-	    componentDidMount: function componentDidMount() {
-	        var url = "https://restcountries.eu/rest/v1/all";
-	        var req = new XMLHttpRequest();
-	        req.open("GET", url);
-	        req.onload = function () {
-	            if (req.status === 200) {
-	                console.log("got the data");
-	                var data = JSON.parse(req.responseText);
-	                var country = this.grabRandomCountry(data);
-	                this.setState({
-	                    countries: data,
-	                    currentCountry: country,
-	                    gameMode: parseInt(Math.random() * 5),
-	                    currentCountryBorders: this.getCountryBorders(country.borders, data) });
-	            }
-	        }.bind(this);
-	        req.send(null);
-	        console.log("asking for data....");
-	    },
-	
 	    render: function render() {
-	
-	        var score;
-	        if (!this.state.scoreDrawn) {
-	            score = React.createElement(
-	                'p',
-	                { className: 'correct' },
-	                'Score: ',
-	                React.createElement(
-	                    'span',
-	                    { className: 'scoreNumber' },
-	                    this.state.score
-	                )
-	            );
-	            this.state.scoreDrawn = true;
-	        } else {
-	            score = React.createElement(
-	                'p',
-	                null,
-	                'Score: ',
-	                React.createElement(
-	                    'span',
-	                    { className: 'scoreNumber' },
-	                    this.state.score
-	                )
-	            );
-	        }
-	
 	        return React.createElement(
-	            'div',
-	            null,
+	            "form",
+	            { onSubmit: this.addAccount, className: "add-account" },
 	            React.createElement(
-	                'h1',
+	                "label",
 	                null,
-	                '🌍 Countries of The World 🌍'
+	                "Owner:",
+	                React.createElement("input", { type: "text", value: this.state.owner, placeholder: "Owner....", onChange: this.ownerChange })
 	            ),
-	            score,
-	            React.createElement(GameView, { gameMode: this.state.gameMode, country: this.state.currentCountry, borders: this.state.currentCountryBorders, finishRound: this.finishRound })
+	            React.createElement(
+	                "label",
+	                null,
+	                "Amount:",
+	                React.createElement("input", { type: "number", value: this.state.amount, placeholder: "5000", onChange: this.amountChange })
+	            ),
+	            React.createElement(
+	                "label",
+	                null,
+	                "Type:",
+	                React.createElement(
+	                    "select",
+	                    { onChange: this.typeChange, value: this.state.type },
+	                    React.createElement(
+	                        "option",
+	                        { value: "Personal" },
+	                        "Personal"
+	                    ),
+	                    React.createElement(
+	                        "option",
+	                        { value: "Business" },
+	                        "Business"
+	                    )
+	                )
+	            ),
+	            React.createElement("input", { type: "submit", value: "Add Account" })
 	        );
 	    },
-	
-	    finishRound: function finishRound(correctAnswer) {
-	        if (correctAnswer) {
-	            this.setState({ score: this.state.score + 1, scoreDrawn: false });
-	        }
-	        var country = this.grabRandomCountry();
-	        this.setState({ currentCountry: country, currentCountryBorders: this.getCountryBorders(country.borders), gameMode: parseInt(Math.random() * 5) });
+	    ownerChange: function ownerChange(e) {
+	        e.preventDefault();
+	        this.setState({ owner: e.target.value });
 	    },
-	    grabRandomCountry: function grabRandomCountry(data) {
-	        var countryData = data;
-	        if (!countryData) {
-	            countryData = this.state.countries;
-	        }
-	        var index;
-	        var selectedCountry = null;
-	        while (selectedCountry === null) {
-	            index = parseInt(Math.random() * countryData.length + 1);
-	            selectedCountry = countryData[index];
-	            if (selectedCountry.borders.length === 0) {
-	                selectedCountry = null;
-	            }
-	        }
-	
-	        return selectedCountry;
+	    amountChange: function amountChange(e) {
+	        e.preventDefault();
+	        this.setState({ amount: parseInt(e.target.value) });
 	    },
-	
-	    getCountryBorders: function getCountryBorders(countryBorders, data) {
-	
-	        var countriesData = data;
-	        if (!countriesData) {
-	            countriesData = this.state.countries;
-	        }
-	
-	        return countriesData.filter(function (country) {
-	            if (countryBorders.indexOf(country.alpha3Code) > -1) {
-	                return true;
-	            } else {
-	                return false;
-	            }
-	        });
-	
-	        // return countryBorders.map(function(countryCode) {
-	        //     for (var country of countriesData) {
-	        //         if (country.alpha3Code === countryCode) {
-	        //             return country;
-	        //         }
-	        //     }
-	        // }.bind(this));
+	    typeChange: function typeChange(e) {
+	        e.preventDefault();
+	        console.log(e.target);
+	        this.setState({ type: e.target.options[e.target.selectedIndex].value });
+	    },
+	    addAccount: function addAccount(e) {
+	        e.preventDefault();
+	        this.props.addAccount(this.state);
+	        this.setState({ owner: null, amount: 0, type: "Personal" });
 	    }
 	
 	});
 	
-	module.exports = GameBox;
+	module.exports = CreateAccount;
 
 /***/ },
 /* 166 */
@@ -20178,45 +20041,84 @@
 	"use strict";
 	
 	var React = __webpack_require__(1);
-	var PropTypes = React.PropTypes;
 	
-	var GameInput = React.createClass({
-	    displayName: "GameInput",
-	
+	var DetailsDisplay = React.createClass({
+	    displayName: "DetailsDisplay",
 	
 	    getInitialState: function getInitialState() {
 	        return {
-	            answerText: null
+	            owner: this.props.account.owner,
+	            amount: this.props.account.amount,
+	            type: this.props.account.type,
+	            details: this.props.account.details
 	        };
 	    },
-	
+	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
+	        this.setState({
+	            owner: nextProps.account.owner,
+	            amount: nextProps.account.amount,
+	            type: nextProps.account.type,
+	            details: nextProps.account.details
+	        });
+	    },
 	    render: function render() {
 	        return React.createElement(
-	            "form",
-	            { onSubmit: this.handleSubmit },
-	            React.createElement("input", { type: "text", onChange: this.handleTextChange, value: this.state.answerText }),
-	            React.createElement("input", { type: "submit", value: "Guess!" })
+	            "div",
+	            null,
+	            React.createElement(
+	                "h2",
+	                null,
+	                "Selected Account"
+	            ),
+	            React.createElement(
+	                "form",
+	                { onSubmit: this.saveDetails, className: "account-details" },
+	                React.createElement("input", { type: "text", value: this.state.owner, onChange: this.changeOwner }),
+	                React.createElement("input", { type: "number", value: this.state.amount, onChange: this.changeAmount, step: 0.01 }),
+	                React.createElement(
+	                    "select",
+	                    { onChange: this.changeType, value: this.state.type },
+	                    React.createElement(
+	                        "option",
+	                        { value: "Personal" },
+	                        "Personal"
+	                    ),
+	                    React.createElement(
+	                        "option",
+	                        { value: "Business" },
+	                        "Business"
+	                    )
+	                ),
+	                React.createElement("textarea", { onChange: this.changeDetails, value: this.state.details }),
+	                React.createElement("input", { type: "submit", value: "Save Details" })
+	            )
 	        );
 	    },
-	    handleTextChange: function handleTextChange(e) {
-	        this.setState({ answerText: e.target.value });
-	    },
-	    handleSubmit: function handleSubmit(e) {
+	    saveDetails: function saveDetails(e) {
 	        e.preventDefault();
-	        var answerVal = false;
-	        if (this.state.answerText) {
-	            answerVal = this.state.answerText.toLowerCase() === this.props.answer.toLowerCase();
-	        }
-	        this.setState({ answerText: null });
-	        if (!answerVal) {
-	            alert("The correct answer was: " + this.props.answer);
-	        }
-	        this.props.onsubmit(answerVal);
+	        this.props.saveDetails(this.state);
+	    },
+	    changeOwner: function changeOwner(e) {
+	        e.preventDefault();
+	        this.setState({ owner: e.target.value });
+	    },
+	    changeAmount: function changeAmount(e) {
+	        e.preventDefault();
+	        this.setState({ amount: parseFloat(e.target.value) });
+	    },
+	    changeType: function changeType(e) {
+	        e.preventDefault();
+	        console.log(e.target);
+	        this.setState({ type: e.target.options[e.target.selectedIndex].value });
+	    },
+	    changeDetails: function changeDetails(e) {
+	        e.preventDefault();
+	        this.setState({ details: e.target.value });
 	    }
 	
 	});
 	
-	module.exports = GameInput;
+	module.exports = DetailsDisplay;
 
 /***/ }
 /******/ ]);

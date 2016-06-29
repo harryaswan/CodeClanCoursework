@@ -1,0 +1,88 @@
+body {
+    background: #446195;
+    color: #57c98a;
+}
+#app {
+    width: 80%;
+    margin: auto;
+}
+
+h2 {
+    box-shadow: -2px 2px 2px black;
+    width: 80%;
+    padding: 4px;
+    border-radius: 2px;
+    background: #3e6bc1;
+    color: #86c452;
+    margin: 15px auto;
+    text-align: center;
+}
+
+ul {
+    width: 60%;
+    margin: auto;
+}
+
+ul li {
+    width: 100%;
+    list-style-type: none;
+    padding: 5px;
+    box-shadow: -2px 2px 2px black;
+}
+ul li:nth-child(even) {
+    background: #466aad;
+    color: #55c754;
+}
+
+ul li:nth-child(odd) {
+    background: #55c754;
+    color: #466aad;
+}
+ul li:first-child {
+    border-radius: 5px 5px 0px 0px;
+}
+ul li:last-child {
+    border-radius: 0px 0px 5px 5px;
+    box-shadow: -2px 2px 2px black;
+}
+
+
+.owner-name {
+    font-weight: bold;
+}
+ul li button {
+    float: right;
+}
+button {
+    /*background: red;*/
+    border: 0;
+    border-radius: 5px;
+    margin-right: 5px;
+}
+.account-details {
+    text-align: center;
+}
+.account-details input {
+    width: 15%;
+    border: 0;
+    line-height: 30px;
+    font-size: 30px;
+}
+.account-details textarea {
+    width: 15%;
+}
+.account-details select {
+    width: 17%;
+    line-height: 30px;
+    font-size: 30px;
+    background: white;
+    border-radius: 0px;
+    /*-webkit-appearance: none;
+    -webkit-border-radius: 0px;*/
+    padding: 3px;
+}
+.add-account {
+    width: 100%;
+    margin: auto;
+    text-align: center;
+}

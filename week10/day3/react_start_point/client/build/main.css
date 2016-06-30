@@ -1,6 +1,9 @@
+@import 'https://fonts.googleapis.com/css?family=Poiret+One|Scope+One';
+
 body {
     background: #446195;
     color: #57c98a;
+    font-family: 'Scope One', serif;
 }
 #app {
     width: 80%;
@@ -16,6 +19,7 @@ h2 {
     color: #86c452;
     margin: 15px auto;
     text-align: center;
+    font-family: 'Poiret One', cursive;
 }
 
 ul {
@@ -28,15 +32,21 @@ ul li {
     list-style-type: none;
     padding: 5px;
     box-shadow: -2px 2px 2px black;
+    position: relative;
 }
 ul li:nth-child(even) {
     background: #466aad;
     color: #55c754;
 }
-
 ul li:nth-child(odd) {
     background: #55c754;
     color: #466aad;
+}
+ul li:nth-child(odd) button{
+    background: #3ea2bc;
+}
+ul li:nth-child(even) button{
+    background: #3eb699;
 }
 ul li:first-child {
     border-radius: 5px 5px 0px 0px;
@@ -58,31 +68,85 @@ button {
     border: 0;
     border-radius: 5px;
     margin-right: 5px;
+    font-family: 'Scope One', serif;
+    padding-top: 4px;
 }
-.account-details {
+.account-details, .add-account {
     text-align: center;
+    box-shadow: -2px 2px 2px black;
+    width: 80%;
+    margin: auto;
+    background: #47a3c3;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 .account-details input {
-    width: 15%;
-    border: 0;
+    width: 33%;
+    line-height: 30px;
+    font-size: 30px;
+    font-family: 'Scope One', serif;
+    border-width: 1px;
+    border-color: black;
+    margin: 2px;
+    border-radius: 3px;
+    padding-left: 5px;
+    display: inline-block;
+}
+.account-details input[type="submit"] {
+    width: 80%;
+    font-size: 25px;
+    line-height: 25px;
+    background: #45c0a8;
+}
+.account-details textarea {
+    width: 93%;
+    height: 65px;
+    font-family: 'Scope One', serif;
+    display: inline-block;
+    border-width: 1px;
+    border-color: black;
+    border-radius: 3px;
     line-height: 30px;
     font-size: 30px;
 }
-.account-details textarea {
-    width: 15%;
-}
 .account-details select {
-    width: 17%;
+    width: 25%;
     line-height: 30px;
     font-size: 30px;
     background: white;
     border-radius: 0px;
-    /*-webkit-appearance: none;
-    -webkit-border-radius: 0px;*/
+    font-family: 'Scope One', serif;
+    border-width: 1px;
+    border-color: black;
+    /*-webkit-appearance: none;*/
+    /*-webkit-border-radius: 3px;*/
     padding: 3px;
 }
-.add-account {
+.interest-button {
     width: 100%;
-    margin: auto;
+    /*margin: auto;*/
     text-align: center;
+    font-size: 20px;
+    line-height: 20px;
+    background: #45c0a8;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: -2px 2px 2px black;
+    font-family: 'Scope One', serif;
+    padding: 5px;
+}
+.test {
+    width: 75%;
+    margin: auto;
+}
+.add-account {
+    padding: 5px;
+}
+
+button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+    box-shadow: -1px 1px 1px black;
+    cursor: pointer;
+
 }

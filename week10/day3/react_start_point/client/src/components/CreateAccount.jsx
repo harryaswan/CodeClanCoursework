@@ -10,18 +10,21 @@ var CreateAccount = React.createClass({
     },
     render: function() {
         return (
-            <form onSubmit={this.addAccount} className="add-account">
-                <label>Owner:<input type="text" value={this.state.owner} placeholder="Owner...." onChange={this.ownerChange}/></label>
-                <label>Amount:<input type="number" value={this.state.amount} placeholder="5000" onChange={this.amountChange}/></label>
-                <label>
-                    Type:
-                    <select onChange={this.typeChange} value={this.state.type}>
-                        <option value="Personal">Personal</option>
-                        <option value="Business">Business</option>
-                    </select>
-                </label>
-                <input type="submit" value="Add Account" />
-            </form>
+            <div>
+                <h2>Create New Account</h2>
+                <form onSubmit={this.addAccount} className="add-account">
+                    <label>Owner:<input type="text" value={this.state.owner} placeholder="Owner...." onChange={this.ownerChange}/></label>
+                    <label>Amount:<input type="number" value={this.state.amount} placeholder="5000" onChange={this.amountChange}/></label>
+                    <label>
+                        Type:
+                        <select onChange={this.typeChange} value={this.state.type}>
+                            <option value="Personal">Personal</option>
+                            <option value="Business">Business</option>
+                        </select>
+                    </label>
+                    <input type="submit" value="Add Account" />
+                </form>
+            </div>
         );
     },
     ownerChange: function(e) {

@@ -19716,10 +19716,10 @@
 	            'div',
 	            null,
 	            React.createElement(TotalDisplay, { accounts: this.state.accounts }),
+	            React.createElement(InterestButton, { addInterest: this.addInterest }),
 	            React.createElement(AccountBox, { accounts: this.getAccounts('type', 'Personal'), accountType: 'Personal', deleteAccount: this.deleteAccount, selectAccount: this.selectAccount }),
 	            React.createElement(AccountBox, { accounts: this.getAccounts('type', 'Business'), accountType: 'Business', deleteAccount: this.deleteAccount, selectAccount: this.selectAccount }),
 	            React.createElement(DetailsDisplay, { account: this.state.selectedAccount, saveDetails: this.saveDetails }),
-	            React.createElement(InterestButton, { addInterest: this.addInterest }),
 	            React.createElement(CreateAccount, { addAccount: this.addAccount })
 	        );
 	    },
@@ -19938,17 +19938,21 @@
 /* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	var React = __webpack_require__(1);
 	var PropTypes = React.PropTypes;
 	
 	var InterestButton = React.createClass({
-	    displayName: "InterestButton",
+	    displayName: 'InterestButton',
 	
 	
 	    render: function render() {
-	        return React.createElement("input", { type: "button", value: "+10% Interest", onClick: this.props.addInterest });
+	        return React.createElement(
+	            'div',
+	            { className: 'test' },
+	            React.createElement('input', { className: 'interest-button', type: 'button', value: '+10% Interest', onClick: this.props.addInterest })
+	        );
 	    }
 	
 	});
@@ -19975,40 +19979,49 @@
 	    },
 	    render: function render() {
 	        return React.createElement(
-	            "form",
-	            { onSubmit: this.addAccount, className: "add-account" },
+	            "div",
+	            null,
 	            React.createElement(
-	                "label",
+	                "h2",
 	                null,
-	                "Owner:",
-	                React.createElement("input", { type: "text", value: this.state.owner, placeholder: "Owner....", onChange: this.ownerChange })
+	                "Create New Account"
 	            ),
 	            React.createElement(
-	                "label",
-	                null,
-	                "Amount:",
-	                React.createElement("input", { type: "number", value: this.state.amount, placeholder: "5000", onChange: this.amountChange })
-	            ),
-	            React.createElement(
-	                "label",
-	                null,
-	                "Type:",
+	                "form",
+	                { onSubmit: this.addAccount, className: "add-account" },
 	                React.createElement(
-	                    "select",
-	                    { onChange: this.typeChange, value: this.state.type },
+	                    "label",
+	                    null,
+	                    "Owner:",
+	                    React.createElement("input", { type: "text", value: this.state.owner, placeholder: "Owner....", onChange: this.ownerChange })
+	                ),
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    "Amount:",
+	                    React.createElement("input", { type: "number", value: this.state.amount, placeholder: "5000", onChange: this.amountChange })
+	                ),
+	                React.createElement(
+	                    "label",
+	                    null,
+	                    "Type:",
 	                    React.createElement(
-	                        "option",
-	                        { value: "Personal" },
-	                        "Personal"
-	                    ),
-	                    React.createElement(
-	                        "option",
-	                        { value: "Business" },
-	                        "Business"
+	                        "select",
+	                        { onChange: this.typeChange, value: this.state.type },
+	                        React.createElement(
+	                            "option",
+	                            { value: "Personal" },
+	                            "Personal"
+	                        ),
+	                        React.createElement(
+	                            "option",
+	                            { value: "Business" },
+	                            "Business"
+	                        )
 	                    )
-	                )
-	            ),
-	            React.createElement("input", { type: "submit", value: "Add Account" })
+	                ),
+	                React.createElement("input", { type: "submit", value: "Add Account" })
+	            )
 	        );
 	    },
 	    ownerChange: function ownerChange(e) {
@@ -20089,7 +20102,7 @@
 	                        "Business"
 	                    )
 	                ),
-	                React.createElement("textarea", { onChange: this.changeDetails, value: this.state.details }),
+	                React.createElement("textarea", { onChange: this.changeDetails, value: this.state.details, placeholder: "Details...." }),
 	                React.createElement("input", { type: "submit", value: "Save Details" })
 	            )
 	        );

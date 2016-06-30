@@ -18,10 +18,10 @@ var BankBox = React.createClass({
         return (
             <div>
                 <TotalDisplay accounts={this.state.accounts} />
+                <InterestButton addInterest={this.addInterest} />
                 <AccountBox accounts={this.getAccounts('type', 'Personal')} accountType="Personal" deleteAccount={this.deleteAccount} selectAccount={this.selectAccount}/>
                 <AccountBox accounts={this.getAccounts('type', 'Business')} accountType="Business" deleteAccount={this.deleteAccount} selectAccount={this.selectAccount}/>
                 <DetailsDisplay account={this.state.selectedAccount} saveDetails={this.saveDetails} />
-                <InterestButton addInterest={this.addInterest} />
                 <CreateAccount addAccount={this.addAccount} />
             </div>
         );

@@ -5,7 +5,7 @@ var InterestButton = React.createClass({
 
     render: function() {
         return (
-            <input type="button" value="+10% Interest" onClick={this.props.addInterest} />
+            <div className='test'><input className="interest-button" type="button" value="+10% Interest" onClick={this.props.addInterest} /></div>
         );
     }
 

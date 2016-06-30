@@ -28,7 +28,7 @@ var DetailsDisplay = React.createClass({
                         <option value="Personal">Personal</option>
                         <option value="Business">Business</option>
                     </select>
-                    <textarea onChange={this.changeDetails} value={this.state.details}></textarea>
+                    <textarea onChange={this.changeDetails} value={this.state.details} placeholder="Details...."></textarea>
                     <input type="submit" value="Save Details" />
                 </form>
             </div>

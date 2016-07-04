@@ -11,12 +11,12 @@ var AccountList = React.createClass({
                 <ul>
                     {this.props.accounts.map(function(account) {
                         var delFun = function() {
-                            this.props.deleteAccount(account.owner);
+                            this.props.deleteAccount(account.id);
                         }.bind(this);
                         var editFun = function() {
-                            this.props.selectAccount(account.owner);
+                            this.props.selectAccount(account.id);
                         }.bind(this);
-                        return (<li key={account.owner}><span className="owner-name">{account.owner}:</span> £{account.amount}<button onClick={delFun}>Delete</button><button onClick={editFun}>View/Edit Details</button></li>);
+                        return (<li key={account.id}><span className="owner-name">{account.owner}:</span> £{account.amount}<button onClick={delFun}>Delete</button><button onClick={editFun}>View/Edit Details</button></li>);
                     }.bind(this))}
                 </ul>
             );

@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Stuff</title>
+    </head>
+    <body>
+        <ul>
+            <% @pigeons.each do |pigeon| %>
+                <li><%= pigeon[:name] %></li>
+            <% end %>
+        </ul>
+    </body>
+</html>

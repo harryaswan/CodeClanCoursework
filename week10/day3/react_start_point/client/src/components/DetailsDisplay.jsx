@@ -6,7 +6,8 @@ var DetailsDisplay = React.createClass({
             owner: this.props.account.owner,
             amount: this.props.account.amount,
             type: this.props.account.type,
-            details: this.props.account.details
+            details: this.props.account.details,
+            id: this.props.account.id
         };
     },
     componentWillReceiveProps: function(nextProps) {
@@ -14,7 +15,8 @@ var DetailsDisplay = React.createClass({
             owner: nextProps.account.owner,
             amount: nextProps.account.amount,
             type: nextProps.account.type,
-            details: nextProps.account.details
+            details: nextProps.account.details,
+            id: nextProps.account.id
         });
     },
     render: function() {

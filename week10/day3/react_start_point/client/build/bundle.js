@@ -19736,28 +19736,49 @@
 	    },
 	    addAccount: function addAccount(accountObj, callback) {
 	        var newAccounts = this.state.accounts;
+	        accountObj.id = newAccounts.length;
 	        newAccounts.push(accountObj);
 	        this.setState({ accounts: newAccounts }, callback);
 	    },
-	    deleteAccount: function deleteAccount(ownerName, callback) {
+	    deleteAccount: function deleteAccount(accId, callback) {
 	        var newAccounts = this.state.accounts.filter(function (account) {
-	            return account.owner !== ownerName;
+	            return account.id !== accId;
 	        });
 	        this.setState({ accounts: newAccounts }, callback);
 	    },
-	    selectAccount: function selectAccount(ownerName, callback) {
+	    selectAccount: function selectAccount(accId, callback) {
 	        var account = this.state.accounts.find(function (account) {
-	            return account.owner === ownerName;
+	            return account.id === accId;
 	        });
 	        this.setState({ selectedAccount: account }, callback);
 	    },
-	    saveDetails: function saveDetails(account) {
-	        console.log(account);
-	        this.deleteAccount(account.owner, function () {
-	            this.addAccount(account, function () {
-	                this.selectAccount(account.owner);
-	            }.bind(this));
-	        }.bind(this));
+	    saveDetails: function saveDetails(accountEdit) {
+	        var newAccounts = this.state.accounts;
+	        for (var i = 0; i < newAccounts.length; i++) {
+	            console.log(accountEdit, newAccounts[i]);
+	            if (newAccounts[i].id === accountEdit.id) {
+	                newAccounts[i].owner = accountEdit.owner;
+	                newAccounts[i].amount = accountEdit.amount;
+	                newAccounts[i].type = accountEdit.type;
+	                newAccounts[i].details = accountEdit.details;
+	                console.log('set');
+	            }
+	        }
+	        // for (var account of newAccounts) {
+	        //     console.log(accountEdit.id, account.id);
+	        //     if (account.id === accountEdit.id) {
+	        //         account = accountEdit;
+	        //         console.log('set', account);
+	        //     }
+	        // }
+	        console.log('na', newAccounts);
+	        this.setState({ accounts: newAccounts }, this.selectAccount(accountEdit.id));
+	
+	        // this.deleteAccount(account.id, function() {
+	        //     this.addAccount(account, function() {
+	        //         this.selectAccount(account.id);
+	        //     }.bind(this));
+	        // }.bind(this));
 	    }
 	
 	});
@@ -19773,23 +19794,28 @@
 	module.exports = [{ owner: "Jay",
 	  amount: 125.50,
 	  type: "Personal",
-	  details: ""
+	  details: "",
+	  id: 0
 	}, { owner: "Val",
 	  amount: 55125.10,
 	  type: "Personal",
-	  details: ""
+	  details: "",
+	  id: 1
 	}, { owner: "Marc",
 	  amount: 400.00,
 	  type: "Personal",
-	  details: ""
+	  details: "",
+	  id: 2
 	}, { owner: "Keith",
 	  amount: 220.25,
 	  type: "Business",
-	  details: ""
+	  details: "",
+	  id: 3
 	}, { owner: "Rick",
 	  amount: 100000.00,
 	  type: "Business",
-	  details: ""
+	  details: "",
+	  id: 4
 	}];
 
 /***/ },
@@ -19892,14 +19918,14 @@
 	                null,
 	                this.props.accounts.map(function (account) {
 	                    var delFun = function () {
-	                        this.props.deleteAccount(account.owner);
+	                        this.props.deleteAccount(account.id);
 	                    }.bind(this);
 	                    var editFun = function () {
-	                        this.props.selectAccount(account.owner);
+	                        this.props.selectAccount(account.id);
 	                    }.bind(this);
 	                    return React.createElement(
 	                        "li",
-	                        { key: account.owner },
+	                        { key: account.id },
 	                        React.createElement(
 	                            "span",
 	                            { className: "owner-name" },
@@ -20063,7 +20089,8 @@
 	            owner: this.props.account.owner,
 	            amount: this.props.account.amount,
 	            type: this.props.account.type,
-	            details: this.props.account.details
+	            details: this.props.account.details,
+	            id: this.props.account.id
 	        };
 	    },
 	    componentWillReceiveProps: function componentWillReceiveProps(nextProps) {
@@ -20071,7 +20098,8 @@
 	            owner: nextProps.account.owner,
 	            amount: nextProps.account.amount,
 	            type: nextProps.account.type,
-	            details: nextProps.account.details
+	            details: nextProps.account.details,
+	            id: nextProps.account.id
 	        });
 	    },
 	    render: function render() {

@@ -39,28 +39,49 @@ var BankBox = React.createClass({
     },
     addAccount: function(accountObj, callback) {
         var newAccounts = this.state.accounts;
+        accountObj.id = newAccounts.length;
         newAccounts.push(accountObj);
         this.setState({accounts: newAccounts}, callback);
     },
-    deleteAccount: function(ownerName, callback) {
+    deleteAccount: function(accId, callback) {
         var newAccounts = this.state.accounts.filter(function(account) {
-            return account.owner !== ownerName
+            return account.id !== accId
         });
         this.setState({accounts: newAccounts}, callback);
     },
-    selectAccount: function(ownerName, callback) {
+    selectAccount: function(accId, callback) {
         var account = this.state.accounts.find(function(account) {
-            return account.owner === ownerName;
+            return account.id === accId;
         });
         this.setState({selectedAccount: account}, callback);
     },
-    saveDetails: function(account) {
-        console.log(account);
-        this.deleteAccount(account.owner, function() {
-            this.addAccount(account, function() {
-                this.selectAccount(account.owner);
-            }.bind(this));
-        }.bind(this));
+    saveDetails: function(accountEdit) {
+        var newAccounts = this.state.accounts;
+        for (var i = 0; i < newAccounts.length; i++) {
+            console.log(accountEdit, newAccounts[i]);
+            if (newAccounts[i].id === accountEdit.id) {
+                newAccounts[i].owner = accountEdit.owner;
+                newAccounts[i].amount = accountEdit.amount;
+                newAccounts[i].type = accountEdit.type;
+                newAccounts[i].details = accountEdit.details;
+                console.log('set');
+            }
+        }
+        // for (var account of newAccounts) {
+        //     console.log(accountEdit.id, account.id);
+        //     if (account.id === accountEdit.id) {
+        //         account = accountEdit;
+        //         console.log('set', account);
+        //     }
+        // }
+        console.log('na',newAccounts);
+        this.setState({accounts: newAccounts}, this.selectAccount(accountEdit.id));
+
+        // this.deleteAccount(account.id, function() {
+        //     this.addAccount(account, function() {
+        //         this.selectAccount(account.id);
+        //     }.bind(this));
+        // }.bind(this));
     }
 
 });

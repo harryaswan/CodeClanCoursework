@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Index</title>
+    </head>
+    <body>
+        <h1>Hello</h1>
+        <ul>
+            <% @animals.each do |animal|%>
+                <li><%= animal[:name] %></li>
+            <% end %>
+        </ul>
+        <%= yield %>
+    </body>
+</html>

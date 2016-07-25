@@ -1,5 +1,5 @@
 class Bear
-    attr_accessor(:name, :type, :tummy)
+    attr_reader(:name, :type, :tummy)
     def initialize(name, type)
         @name = name
         @type = type

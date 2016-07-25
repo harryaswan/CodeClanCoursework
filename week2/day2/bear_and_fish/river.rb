@@ -1,5 +1,5 @@
 class River
-    attr_accessor(:name, :fishes)
+    attr_reader(:name, :fishes)
     def initialize(name, fishes)
         @name = name
         @fishes = fishes

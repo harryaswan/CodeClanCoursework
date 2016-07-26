@@ -35,6 +35,15 @@ public class TrainTest {
     }
 
     @Test
+    public void canRetrievePassengers() {
+        train.addPerson("John", PersonType.PASSENGER);
+        train.addPerson("Dave", PersonType.PASSENGER);
+        Person[] passengers = train.getPassengers();
+        assertEquals("John", passengers[0].getName());
+        assertEquals("Dave", passengers[1].getName());
+    }
+
+    @Test
     public void canRemovePassenger() {
         train.addPerson("John", PersonType.PASSENGER);
         train.addPerson("Dave", PersonType.PASSENGER);

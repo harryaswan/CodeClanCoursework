@@ -28,6 +28,14 @@ public class Train {
         }
     }
 
+    public Person[] getPassengers() {
+        Person[] currentPassengers = new Person[passengerCount];
+        for (int i = 0; i < passengerCount; i++) {
+            currentPassengers[i] = passengers[i];
+        }
+        return currentPassengers;
+    }
+
     public void addPerson(String name, PersonType type) {
         Person newPerson = new Person(name, type);
         switch (newPerson.getType()) {
@@ -46,7 +54,6 @@ public class Train {
     }
 
     public void removePassenger(String name) {
-        // listPassengers();
         for (int i = 0; i < passengerCount; i++) {
             if (passengers[i].getName() == name) {
                 for (int y = i; y < passengerCount; y++) {
@@ -56,7 +63,6 @@ public class Train {
                 }
                 passengers[passengerCount-1] = null;
                 passengerCount--;
-                // listPassengers();
                 return;
             }
         }
